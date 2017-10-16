@@ -1,0 +1,18 @@
+kumuluzee:
+  name: order-service
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8081
+    http:
+      port: 8081
+  datasources:
+    - jndi-name: jdbc/OrdersDS
+      connection-url: jdbc:postgresql://192.168.99.100:5433/order
+      username: dbuser
+      password: postgres
+      max-pool-size: 20
+  cors-filter:
+      servlet:
+        allow-origin: "*"
