@@ -37,6 +37,10 @@
             <groupId>com.kumuluz.ee.discovery</groupId>
             <artifactId>kumuluzee-discovery-etcd</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee.health</groupId>
+            <artifactId>kumuluzee-health</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.swagger</groupId>
