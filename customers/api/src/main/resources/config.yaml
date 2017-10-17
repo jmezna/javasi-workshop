@@ -53,6 +53,11 @@ kumuluzee:
           password: postgres
         disk-space-health-check:
           threshold: 100000000
+  metrics:
+    web-instrumentation:
+      - name: customers-endpoint
+        url-pattern: /v1/customers/*
+        registry-name: customersRegistry
 rest-properties:
   external-services:
     order-service:

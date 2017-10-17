@@ -1,5 +1,6 @@
 package com.kumuluz.ee.samples.tutorial.customers.api.v1.resources;
 
+import com.codahale.metrics.annotation.Metered;
 import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.samples.tutorial.customers.Customer;
 import com.kumuluz.ee.samples.tutorial.customers.services.CustomersBean;
@@ -53,6 +54,7 @@ public class CustomersResource {
     @GET
     @ApiOperation(value = "Get a customer", notes = "Returns a customer with provided id.", response = Customer.class)
     @Path("/{customerId}")
+    @Metered(name = "get-customer")
     public Response getCustomer(@PathParam("customerId") String customerId) {
 
         Customer customer = customersBean.getCustomer(customerId);
