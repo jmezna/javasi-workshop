@@ -32,16 +32,16 @@ kumuluzee:
                  </Console>
 
                  <!-- A socket definition for sending logs into Logstash using TCP and JSON format.-->
-                 <Socket name="logstash" host="localhost" port="5043" protocol="tcp">
+                 <!--<Socket name="logstash" host="localhost" port="5043" protocol="tcp">
                      <JSONLayout complete="false" compact="true" eventEol="true" charset="UTF-8" properties="true"/>
-                 </Socket>
+                 </Socket>-->
 
              </Appenders>
              <Loggers>
                  <!-- Default logger -->
                  <Root level="info">
                      <AppenderRef ref="console"/>
-                     <AppenderRef ref="logstash"/>
+                     <!--<AppenderRef ref="logstash"/>-->
                  </Root>
              </Loggers>
          </Configuration>'

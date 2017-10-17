@@ -1,6 +1,10 @@
 package com.kumuluz.ee.samples.tutorial.customers.services;
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.fault.tolerance.annotations.CircuitBreaker;
+import com.kumuluz.ee.fault.tolerance.annotations.CommandKey;
+import com.kumuluz.ee.fault.tolerance.annotations.Fallback;
+import com.kumuluz.ee.fault.tolerance.annotations.GroupKey;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
 import com.kumuluz.ee.rest.beans.QueryParameters;
@@ -24,9 +28,11 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RequestScoped
+@GroupKey("customers-bean")
 public class CustomersBean {
 
     private Logger log = LogManager.getLogger(CustomersBean.class.getName());
@@ -44,7 +50,7 @@ public class CustomersBean {
 
     @Inject
     @DiscoverService("order-service")
-    private String baseUrl;
+    private Optional<String> baseUrl;
 
     @PostConstruct
     private void init() {
@@ -136,19 +142,25 @@ public class CustomersBean {
     }
 
 
+    @CircuitBreaker
+    @CommandKey("get-orders-http")
+    @Fallback(fallbackMethod = "getOrdersFallback")
     public List<Order> getOrders(String customerId) {
 
+        if (baseUrl.isPresent()) {
 
-        try {
-            return httpClient
-                    .target(baseUrl + "/v1/orders?where=customerId:EQ:" + customerId)
-                    .request().get(new GenericType<List<Order>>() {
-                    });
-        } catch (WebApplicationException | ProcessingException e) {
-            log.error(e);
-            throw new InternalServerErrorException(e);
+            try {
+                return httpClient
+                        .target(baseUrl.get() + "/v1/orders?where=customerId:EQ:" + customerId)
+                        .request().get(new GenericType<List<Order>>() {
+                        });
+            } catch (WebApplicationException | ProcessingException e) {
+                log.error(e);
+                throw new InternalServerErrorException(e);
+            }
+        } else {
+            return new ArrayList<>();
         }
-
     }
 
     public List<Order> getOrdersFallback(String customerId) {
