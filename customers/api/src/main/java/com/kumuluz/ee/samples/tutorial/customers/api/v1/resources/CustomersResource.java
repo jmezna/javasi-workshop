@@ -1,5 +1,6 @@
 package com.kumuluz.ee.samples.tutorial.customers.api.v1.resources;
 
+import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.samples.tutorial.customers.Customer;
 import com.kumuluz.ee.samples.tutorial.customers.services.CustomersBean;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import java.util.List;
 @Path("/customers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Log
 public class CustomersResource {
 
     @Inject
