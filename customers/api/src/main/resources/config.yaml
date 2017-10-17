@@ -45,6 +45,14 @@ kumuluzee:
                  </Root>
              </Loggers>
          </Configuration>'
+  health:
+      checks:
+        data-source-health-check:
+          connection-url: jdbc:postgresql://192.168.99.100:5432/customer
+          username: dbuser
+          password: postgres
+        disk-space-health-check:
+          threshold: 100000000
 rest-properties:
   external-services:
     order-service:
