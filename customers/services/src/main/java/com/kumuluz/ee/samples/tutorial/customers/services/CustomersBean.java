@@ -7,11 +7,18 @@ import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.kumuluz.ee.samples.tutorial.customers.Customer;
 import com.kumuluz.ee.samples.tutorial.orders.Order;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,15 @@ public class CustomersBean {
 
     @Inject
     private CustomersBean customersBean;
+
+    private Client httpClient;
+    private String baseUrl;
+
+    @PostConstruct
+    private void init() {
+        httpClient = ClientBuilder.newClient();
+        baseUrl = "http://localhost:8081";
+    }
 
 
     public List<Customer> getCustomers() {
@@ -52,6 +68,9 @@ public class CustomersBean {
         if (customer == null) {
             throw new NotFoundException();
         }
+
+        List<Order> orders = customersBean.getOrders(customerId);
+        customer.setOrders(orders);
 
         return customer;
     }
@@ -111,7 +130,15 @@ public class CustomersBean {
     public List<Order> getOrders(String customerId) {
 
 
-        return new ArrayList<>();
+        try {
+            return httpClient
+                    .target(baseUrl + "/v1/orders?where=customerId:EQ:" + customerId)
+                    .request().get(new GenericType<List<Order>>() {
+                    });
+        }catch (WebApplicationException|ProcessingException e){
+            log.error(e);
+            throw  new InternalServerErrorException(e);
+        }
 
     }
 
