@@ -16,3 +16,10 @@ kumuluzee:
   cors-filter:
         servlet:
           allow-origin: "*"
+  config:
+    etcd:
+      hosts: http://192.168.99.100:2379
+rest-properties:
+  external-services:
+    order-service:
+      enabled: true

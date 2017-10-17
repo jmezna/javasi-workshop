@@ -5,6 +5,7 @@ import com.kumuluz.ee.logs.Logger;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.kumuluz.ee.samples.tutorial.customers.Customer;
+import com.kumuluz.ee.samples.tutorial.customers.services.config.RestProperties;
 import com.kumuluz.ee.samples.tutorial.orders.Order;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,9 @@ import java.util.List;
 public class CustomersBean {
 
     private Logger log = LogManager.getLogger(CustomersBean.class.getName());
+
+    @Inject
+    private RestProperties restProperties;
 
     @Inject
     private EntityManager em;
@@ -69,8 +73,10 @@ public class CustomersBean {
             throw new NotFoundException();
         }
 
-        List<Order> orders = customersBean.getOrders(customerId);
-        customer.setOrders(orders);
+        if (restProperties.isOrderServiceEnabled()) {
+            List<Order> orders = customersBean.getOrders(customerId);
+            customer.setOrders(orders);
+        }
 
         return customer;
     }
@@ -135,9 +141,9 @@ public class CustomersBean {
                     .target(baseUrl + "/v1/orders?where=customerId:EQ:" + customerId)
                     .request().get(new GenericType<List<Order>>() {
                     });
-        }catch (WebApplicationException|ProcessingException e){
+        } catch (WebApplicationException | ProcessingException e) {
             log.error(e);
-            throw  new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e);
         }
 
     }
