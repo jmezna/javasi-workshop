@@ -16,3 +16,6 @@ kumuluzee:
   cors-filter:
       servlet:
         allow-origin: "*"
+  discovery:
+    etcd:
+      hosts: http://192.168.99.100:2379
