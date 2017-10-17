@@ -1,5 +1,6 @@
 package com.kumuluz.ee.samples.tutorial.customers.services;
 
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
 import com.kumuluz.ee.rest.beans.QueryParameters;
@@ -40,12 +41,14 @@ public class CustomersBean {
     private CustomersBean customersBean;
 
     private Client httpClient;
+
+    @Inject
+    @DiscoverService("order-service")
     private String baseUrl;
 
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = "http://localhost:8081";
     }
 
 

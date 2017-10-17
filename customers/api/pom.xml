@@ -35,6 +35,7 @@
             <artifactId>kumuluzee-config-etcd</artifactId>
         </dependency>
 
+
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-core</artifactId>
