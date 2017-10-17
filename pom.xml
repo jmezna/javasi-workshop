@@ -12,6 +12,7 @@
     <modules>
         <module>customers</module>
         <module>orders</module>
+        <module>web</module>
     </modules>
 
     <properties>

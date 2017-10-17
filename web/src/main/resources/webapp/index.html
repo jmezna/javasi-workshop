@@ -1,0 +1,117 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Cloud!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+<div id="app">
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+                <h2 style="color: rgb(252, 170, 24);">Java</h2>
+                <h2 style="color: white;">Si</h2>
+                <h2 style="color: rgb(219, 53, 57);">'</h2>
+                <h2 style="color: white;">17 - Cloud-native workshop</h2>
+            </a>
+
+            <button class="button navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div class="navbar-end">
+            <a class="navbar-item" href="https://bulma.io">
+                <i class="fa fa-check-circle fa-2x" aria-hidden="true" style="color: rgb(118, 189, 147);" v-if="orderHealthy"></i>
+                <i class="fa fa-times-circle fa-2x" aria-hidden="true" style="color: rgb(179, 109, 101);" v-if="!orderHealthy"></i>
+            </a>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title">
+                        Hello Cloud
+                    </h1>
+                    <p class="subtitle">
+                        Cloud-native microservices with <strong>KumuluzEE</strong>!
+                    </p>
+                </div>
+                <div class="column has-text-right">
+                    <a class="button is-link" v-if="infected" v-on:click="healOrder">Heal Order service</a>
+                    <a class="button is-link" v-if="!infected" v-on:click="infectOrder">Infect order service</a>
+                    <a class="button is-link" v-on:click="loadOrder">Overload order service</a>
+                </div>
+            </div>
+            <h4 class="subtitle is-4">Orders</h4>
+            <table class="table is-fullwidth is-hoverable is-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Submitted At</th>
+                    <th>Customer</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="o in orders">
+                    <td>{{ o.id }}</td>
+                    <td>{{ o.title }}</td>
+                    <td>{{ o.description }}</td>
+                    <td>{{ o.submitted }}</td>
+                    <td>{{ o.customerName || o.customerId }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div v-if="orders.length === 0" class="has-text-centered">
+                <em>No orders found</em>
+            </div>
+            <h4 class="subtitle is-4">Customers</h4>
+            <table class="table is-fullwidth is-hoverable is-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address</th>
+                    <th>Date of birth</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="c in customers">
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.firstName }}</td>
+                    <td>{{ c.lastName }}</td>
+                    <td>{{ c.address }}</td>
+                    <td>{{ c.dateOfBirth }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div v-if="customers.length === 0" class="has-text-centered">
+                <em>No customers found</em>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <i class="fa fa-code" aria-hidden="true"></i> with <i class="fa fa-heart" aria-hidden="true"></i>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="scripts/app.js"></script>
+</body>
+</html>

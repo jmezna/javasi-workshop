@@ -1,0 +1,8 @@
+kumuluzee:
+  name: web-service
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    http:
+      port: 8082
