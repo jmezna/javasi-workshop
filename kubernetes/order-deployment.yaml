@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+      - image: jmezna/javasi-orders:0.05
+        name: orders
+        env:
+          - name: KUMULUZEE_DISCOVERY_CLUSTER
+            value: openshift
+          - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+            value: http://etcd:2379
+          - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+            value: http://etcd:2379
+          - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+            value: jdbc:postgresql://postgres-orders:5432/order
+          - name: KUMULUZEE_DATASOURCES0_USERNAME
+            value: dbuser
+          - name: KUMULUZEE_HEALTH_CHECKS_DATASOURCEHEALTHCHECK_CONNECTIONURL
+            value: jdbc:postgresql://postgres-orders:5432/order
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8081
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        ports:
+        - containerPort: 8081
+          name: server
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
