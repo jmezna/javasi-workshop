@@ -41,3 +41,14 @@ KUMULUZEE_SERVER_HTTP_PORT=8082
 ## KumuluzEE Tutorial
 
 Podrobnejši tutorial lahko najdete na [GitHub-u](https://github.com/kumuluz/kumuluzee-samples/tree/master/tutorial-microservice-config-discovery-faulttolerance-logs-metrics-security).
+
+## Avtorji
+
+Avtorja: Jan Meznarič in Tilen Faganel
+
+Kontakt in več informacij: 
+- [Sunesis d.o.o.](https://sunesis.si/)
+- [KumuluzEE](https://ee.kumuluz.com/)
+- Email: [info@kumuluz.com](mailto:info@kumuluz.com)
+
+ 
